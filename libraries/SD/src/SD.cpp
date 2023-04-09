@@ -344,15 +344,19 @@ boolean SDClass::begin(uint8_t csPin) {
     Return true if initialization succeeds, false otherwise.
 
    */
-  return card.init(SPI_HALF_SPEED, csPin) &&
-         volume.init(card) &&
-         root.openRoot(volume);
+  uint8_t card_init     = card.init(SPI_FULL_SPEED/*SPI_QUARTER_SPEED*/, csPin);
+  uint8_t volume_init   = volume.init(card);
+  uint8_t root_openRoot = root.openRoot(volume);
+  // Serial.printf("card_init: %d\nvolume_init: %d\nroot_openRoot: %d\n", card_init, volume_init, root_openRoot);
+  return card_init &&
+         volume_init &&
+         root_openRoot;
 }
 
 boolean SDClass::begin(uint32_t clock, uint8_t csPin) {
   if(root.isOpen()) root.close();
 
-  return card.init(SPI_HALF_SPEED, csPin) &&
+  return card.init(SPI_FULL_SPEED, csPin) &&
          card.setSpiClock(clock) &&
          volume.init(card) &&
          root.openRoot(volume);
