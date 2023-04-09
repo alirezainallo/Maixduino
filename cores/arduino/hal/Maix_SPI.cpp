@@ -10,7 +10,7 @@
 #include "SPI_hal.h"
 #include "sysctl.h"
 
-SPIClass SPI;
+SPIClass SPI(SPI0, 27, 26, 28, 29); //, 1000000
 
 extern volatile spi_t *const spi[4];
 
